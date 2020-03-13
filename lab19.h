@@ -19,10 +19,10 @@ class Unit{
 		void showStatus();
 		void newTurn();
 		int attack(Unit &);
-		int beAttacked(int);
-		int heal();	
-		void guard();
-		bool isDead();	
+		int beAttacked(int); //แสดงเราถูกโจมตี(รับ in put atk ลบ กับ dtf และรีเทินค่านั้นออกไป)
+		int heal();	//มีเงื่อไขคือฮิวไม่เกินhpmax
+		void guard(); //เรียก guard_on เป็น true
+		bool isDead();	//เช็คว่าเราตายหรือไม่ if hp <= 0 ....
 };
 
 void Unit::create(string t){ 
@@ -64,12 +64,51 @@ void Unit::newTurn(){
 }
 
 //Write Function Member attack(), beAttacked(), heal(), guard() and isDead() here
-//
-//
-//
-//
-//
-//
+
+int Unit::attack(Unit &x){
+	return x.beAttacked(atk);
+}
+
+int Unit::beAttacked(int oppatk){
+	int dmg;
+	dmg=oppatk-def;
+	if (guard_on)
+	{
+		dmg=dmg/3;
+		hp=hp-dmg;
+		return dmg;
+	}
+	else
+	{
+		hp=hp-dmg;
+		return dmg;
+	}
+	
+}
+
+int Unit::heal(){
+	int rehp;
+	int temp=hp;
+	rehp=rand()%21+10;
+	hp=hp+rehp;
+	if(hp>=hpmax){
+		hp=hpmax;
+	}
+	return hp-temp;
+}
+
+void Unit::guard(){
+	guard_on = true;
+}
+
+bool Unit::isDead(){
+	if(hp<=0) return true;
+	else return false;
+}
+
+
+
+
 
 void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                                                       \n";
